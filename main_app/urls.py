@@ -2,7 +2,7 @@ from django.urls import path
 from . import views # Import views to connect routes to view functions
 
 urlpatterns = [
-    path('', views.home.as_views(), name='home'),
+    path('', views.home, name='home'),
 
     path('accounts/signup/', views.signup, name='signup'),
 

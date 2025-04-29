@@ -1,0 +1,25 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block content %}
+
+<h2>Available Watches</h2>
+
+{% if watches %}
+    <ul>
+        {% for watch in watches %}
+            <li>
+                <a href="{% url 'watch_detail' watch.id %}">
+                    {{ watch.brand }} - {{ watch.title }}
+                </a>
+                {% if watch.image %}
+                    <div>
+                        <img src="{{ watch.image.url }}" alt="Watch Image" width="200">
+                    </div>
+                {% endif %}
+            </li>
+        {% endfor %}
+    </ul>
+{% else %}
+    <p>No watches available right now. Check back later!</p>
+{% endif %}
+{% endblock %}
