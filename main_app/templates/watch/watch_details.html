@@ -1,0 +1,50 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<h2>{{ watch.brand }} - {{ watch.title }}</h2>
+
+{% if watch.image %}
+  <img src="{{ watch.image.url }}" alt="Watch Image" width="300">
+{% endif %}
+
+<p><strong>Year:</strong> {{ watch.year }}</p>
+<p><strong>Description:</strong> {{ watch.description }}</p>
+<p><strong>Condition:</strong> {{ watch.condition }}</p>
+<p><strong>Listed By:</strong> {{ watch.owner.username }}</p>
+<p><strong>Tags:</strong>
+  {% for tag in watch.tags.all %}
+    {{ tag.name }}{% if not forloop.last %}, {% endif %}
+  {% empty %}
+    No tags
+  {% endfor %}
+</p>
+
+<hr>
+
+<h3>Place a Bid</h3>
+{% if user.is_authenticated %}
+  <form method="POST">
+    {% csrf_token %}
+    {{ bid_form.as_p }}
+    <button type="submit">Submit Bid</button>
+  </form>
+{% else %}
+  <p><a href="{% url 'login' %}">Log in</a> to place a bid.</p>
+{% endif %}
+
+<hr>
+
+<h3>Bids</h3>
+{% if watch.bid_set.all %}
+  <ul>
+    {% for bid in watch.bid_set.all %}
+      <li>
+        ${{ bid.amount }} by {{ bid.user.username }}
+        on {{ bid.created_at|date:"M d, Y H:i" }}
+      </li>
+    {% endfor %}
+  </ul>
+{% else %}
+  <p>No bids yet.</p>
+{% endif %}
+{% endblock %}
