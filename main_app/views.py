@@ -63,7 +63,7 @@ def watch_detail(request, pk):
             new_bid.save()
             return redirect('watch_detail', pk=pk)
     bids = watch.bids.all().order_by('-amount')
-    return render(request, 'watch_detail.html', {
+    return render(request, 'watch/watch_details.html', {
         'watch': watch,
         'bids': bids,
         'bid_form': bid_form
@@ -73,7 +73,7 @@ def watch_detail(request, pk):
 class WatchCreate(LoginRequiredMixin, CreateView):
     model = Watch
     form_class = WatchForm
-    template_name = 'watch_form.html'
+    template_name = 'watch/watch_form.html'
 
     def form_valid(self, form):
         form.instance.owner = self.request.user
@@ -83,10 +83,10 @@ class WatchCreate(LoginRequiredMixin, CreateView):
 class WatchUpdate(LoginRequiredMixin, UpdateView):
     model = Watch
     form_class = WatchForm
-    template_name = 'watch_form.html'
+    template_name = 'watch/watch_form.html'
 
 #Delete watch 
 class WatchDelete(LoginRequiredMixin, DeleteView):
     model = Watch
-    success_url = '/'
-    template_name = 'watch_confirm_delete.html'
+    success_url = '/dashboard'
+    template_name = 'watch/watch_confirm_delete.html'

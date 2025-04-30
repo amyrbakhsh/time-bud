@@ -10,7 +10,7 @@ urlpatterns = [
 
     path('profile/<int:user_id>/', views.profile, name='profile'),
 
-    path('watches/<int:pk>/', views.watch_detail, name='watch_detail'),
+    path('watches/<int:watch_id>/', views.watch_detail, name='watch_detail'),
 
     path('watches/create/', views.WatchCreate.as_view(), name='watch_create'),
 
