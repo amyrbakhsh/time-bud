@@ -1,0 +1,20 @@
+{% extends 'base.html' %}
+{% block content %}
+
+<h2>Watches Tagged: {{ tag.name }}</h2>
+
+{% if watches %}
+  <ul>
+    {% for watch in watches %}
+      <li>
+        <a href="{% url 'watch_detail' watch.id %}">
+          {{ watch.brand }} - {{ watch.title }}
+        </a>
+      </li>
+    {% endfor %}
+  </ul>
+{% else %}
+  <p>No watches found with this tag.</p>
+{% endif %}
+
+{% endblock %}
