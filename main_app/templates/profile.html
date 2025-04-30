@@ -1,0 +1,36 @@
+{% extends 'base.html' %}
+{% block content %}
+
+<h2>{{ profile_user.username }}'s Profile</h2>
+<h3>Listed Watches</h3>
+{% if watched %}
+<ul>
+    {% for watch in watches %}
+    <li>
+        <a href="{% url 'watch_deatil' watch.id %}">
+            {{ watch.brand }} - {{ watch.title }} 
+        </a>
+    </li>
+    {% endfor %}
+</ul>
+{% else %}
+<p>This user has not listed any watches.</p>
+{% endif %}
+
+<h3>Bids Placed</h3>
+{% if bids %}
+<ul>
+    {% for bid in bids %}
+    <li>
+        Bid ${{ bid.amount }} on 
+        <a href="{% url 'wathc_detail' bid.watch.id %}">
+            {{ bid.watch.title }}
+        </a>
+    </li>
+    {% endfor %}
+</ul>
+{% else %}
+<p>No bids placed yet.</p>
+{% endif %}
+
+{% endblock %}

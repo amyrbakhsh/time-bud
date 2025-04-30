@@ -43,11 +43,41 @@ def dashboard(request):
         'transactions': transactions,
     })
 
+
+#Watch Detail
+def watch_detail(request, pk):
+    watch = Watch.objects.get(id=pk) 
+    ... 
+    return render(request, 'watch/watch_details.html', {
+        'watch': watch,
+        'bid_form': bid_form
+    })
+
 #Public View
 def profile(request, user_id):
     user_profile = User.objects.get(id=user_id)
     user_watches = Watch.objects.filter(owner=user_profile)
     return render(request, 'profile.html', {'user_profile': user_profile, 'user_watches': user_watches})
+
+#Profile View
+def profile_view(request, username):
+    profile_user = User.objects.get(username=username)
+    watches = Watch.objects.filter(owner=profile_user)
+    bids = Bid.objects.filter(user=profile_user)
+    return render(request, 'profile.html', {
+        'profile_user': profile_user,
+        'watches': watches,
+        'bids': bids
+    })
+
+
+def tag_list(request, tag_id):
+    tag = Tag.objects.get(id=tag_id)
+    watches = tag.watch_set.all()
+    return render(request, 'tag_list.html', {
+        'tag': tag,
+        'watches': watches
+    })
 
 #Detail and Bidding View
 @login_required

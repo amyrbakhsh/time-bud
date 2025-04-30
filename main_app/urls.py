@@ -8,9 +8,13 @@ urlpatterns = [
 
     path('dashboard/', views.dashboard, name='dashboard'),
 
-    path('profile/<int:user_id>/', views.profile, name='profile'),
+    # path('profile/<int:user_id>/', views.profile, name='profile'),
+    path('profile/<str:username>/', views.profile_view, name='profile'),
 
-    path('watches/<int:watch_id>/', views.watch_detail, name='watch_detail'),
+    path('tags/<int:tag_id>/', views.tag_list, name='tag_list'),
+
+    # path('watches/<int:watch_id>/', views.watch_detail, name='watch_detail'),
+    path('watches/<int:pk>/', views.watch_detail, name='watch_detail'),
 
     path('watches/create/', views.WatchCreate.as_view(), name='watch_create'),
 
