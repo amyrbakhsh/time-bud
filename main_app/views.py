@@ -109,6 +109,17 @@ class WatchCreate(LoginRequiredMixin, CreateView):
         form.instance.owner = self.request.user
         return super().form_valid(form)
 
+#Add watch
+def add_watch(request):
+    if request.method == 'POST':
+        form = WatchForm(request.POST)
+        if form.is_valid():
+            form.save()  
+            return redirect('watch_list')  
+    else:
+        form = WatchForm()
+    return render(request, 'add_watch.html', {'form': form})
+
 #Update watch
 class WatchUpdate(LoginRequiredMixin, UpdateView):
     model = Watch

@@ -12,3 +12,6 @@ class BidForm(forms.ModelForm):
     class Meta:
         model = Bid
         fields = ['amount']
+        widgets = {
+            'amount': forms.NumberInput(attrs={'min': 1}),
+        }
