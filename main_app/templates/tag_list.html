@@ -1,7 +1,7 @@
 {% extends 'base.html' %}
 {% block content %}
 
-<h2>Watches Tagged: {{ tag.name }}</h2>
+<h2>Watches tagged with "{{ tag.name }}"</h2>
 
 {% if watches %}
   <ul>
@@ -14,7 +14,7 @@
     {% endfor %}
   </ul>
 {% else %}
-  <p>No watches found with this tag.</p>
+  <p>No watches found for this tag.</p>
 {% endif %}
 
 {% endblock %}

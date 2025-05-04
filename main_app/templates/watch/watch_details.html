@@ -15,9 +15,10 @@
     {{ watch.owner.username }}
   </a>
 </p>
+
 <p><strong>Tags:</strong>
   {% for tag in watch.tags.all %}
-    {{ tag.name }}{% if not forloop.last %}, {% endif %}
+    <a href="{% url 'tag_list' tag.id %}">{{ tag.name }}</a>{% if not forloop.last %}, {% endif %}
   {% empty %}
     No tags
   {% endfor %}
