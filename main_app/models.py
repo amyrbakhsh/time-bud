@@ -16,8 +16,9 @@ class Tag(models.Model):
     def __str__(self):
         return self.name
     
-    def get_absolute_url(self):
-        return reverse('tag_detail', kwargs={'pk': self.id})
+    # def get_absolute_url(self):
+    #     return reverse('tag_detail', kwargs={'pk': self.id})
+    
 
 #Watch Model-------------------------------
 class Watch(models.Model):
@@ -33,7 +34,7 @@ class Watch(models.Model):
     is_available = models.BooleanField(default=True)
     is_sold = models.BooleanField(default=False)
     owner = models.ForeignKey(User, on_delete=models.CASCADE, related_name='owned_watches')
-    tags = models.ManyToManyField(Tag, blank=True)
+    tags = models.ManyToManyField(Tag, blank=True, related_name='watches')
     created_at = models.DateTimeField(auto_now_add=True)
 
     def __str__(self):

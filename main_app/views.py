@@ -72,9 +72,17 @@ def profile_view(request, username):
     })
 
 
+# def tag_list(request, tag_id):
+#     tag = Tag.objects.get(id=tag_id)
+#     watches = tag.watch_set.all()
+#     return render(request, 'tag_list.html', {
+#         'tag': tag,
+#         'watches': watches
+#     })
+
 def tag_list(request, tag_id):
     tag = Tag.objects.get(id=tag_id)
-    watches = tag.watch_set.all()
+    watches = tag.watches.filter(is_available=True, is_sold=False)
     return render(request, 'tag_list.html', {
         'tag': tag,
         'watches': watches
