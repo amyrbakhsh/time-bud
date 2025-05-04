@@ -10,7 +10,11 @@
 <p><strong>Year:</strong> {{ watch.year }}</p>
 <p><strong>Description:</strong> {{ watch.description }}</p>
 <p><strong>Condition:</strong> {{ watch.condition }}</p>
-<p><strong>Listed By:</strong> {{ watch.owner.username }}</p>
+<p><strong>Listed By:</strong> 
+  <a href="{% url 'profile' watch.owner.username %}">
+    {{ watch.owner.username }}
+  </a>
+</p>
 <p><strong>Tags:</strong>
   {% for tag in watch.tags.all %}
     {{ tag.name }}{% if not forloop.last %}, {% endif %}
@@ -19,16 +23,23 @@
   {% endfor %}
 </p>
 
+{% if user == watch.owner %}
+  <p>
+    <a href="{% url 'watch_update' watch.id %}"> Edit</a> |
+    <a href="{% url 'watch_delete' watch.id %}"> Delete</a>
+  </p>
+{% endif %}
+
 <hr>
 
+{% if user.is_authenticated and watch.owner != user %}
 <h3>Place a Bid</h3>
-{% if user.is_authenticated %}
   <form method="POST">
     {% csrf_token %}
     {{ bid_form.as_p }}
     <button type="submit">Submit Bid</button>
   </form>
-{% else %}
+{% elif not user.is_authenticated %}
   <p><a href="{% url 'login' %}">Log in</a> to place a bid.</p>
 {% endif %}
 
@@ -39,8 +50,16 @@
   <ul>
     {% for bid in watch.bid_set.all %}
       <li>
-        ${{ bid.amount }} by {{ bid.user.username }}
+        ${{ bid.amount }} by 
+        <a href="{% url 'profile' bid.user.username %}">{{ bid.user.username }}</a>
         on {{ bid.created_at|date:"M d, Y H:i" }}
+
+        {% if user == watch.owner %}
+          <form method="POST" action="{% url 'accept_bid' bid.id %}" style="display:inline;">
+            {% csrf_token %}
+            <button type="submit">Accept</button>
+          </form>
+        {% endif %}
       </li>
     {% endfor %}
   </ul>
@@ -48,3 +67,4 @@
   <p>No bids yet.</p>
 {% endif %}
 {% endblock %}
+

@@ -2,13 +2,14 @@
 {% block content %}
 
 <h2>{{ profile_user.username }}'s Profile</h2>
+
 <h3>Listed Watches</h3>
-{% if watched %}
+{% if watches %}
 <ul>
     {% for watch in watches %}
     <li>
-        <a href="{% url 'watch_deatil' watch.id %}">
-            {{ watch.brand }} - {{ watch.title }} 
+        <a href="{% url 'watch_detail' watch.id %}">
+            {{ watch.brand }} - {{ watch.title }}
         </a>
     </li>
     {% endfor %}
@@ -23,7 +24,7 @@
     {% for bid in bids %}
     <li>
         Bid ${{ bid.amount }} on 
-        <a href="{% url 'wathc_detail' bid.watch.id %}">
+        <a href="{% url 'watch_detail' bid.watch.id %}">
             {{ bid.watch.title }}
         </a>
     </li>
@@ -34,3 +35,4 @@
 {% endif %}
 
 {% endblock %}
+
