@@ -1,0 +1,156 @@
+html {
+  box-sizing: border-box;
+}
+*, *::before, *::after {
+  box-sizing: inherit;
+}
+
+:root {
+  font-size: 62.5%;
+  --primary-color: #1e3a8a;
+  --secondary-color: #facc15;
+  --bg-light: #f9fafb;
+  --text-dark: #111827;
+  --text-muted: #6b7280;
+  --border: #d1d5db;
+  --radius: 6px;
+  --shadow: 0 2px 6px rgba(0,0,0,0.1);
+  --transition: all 0.3s ease;
+  --font-lg: 2.4rem;
+  --font-md: 1.6rem;
+  --font-sm: 1.4rem;
+}
+
+body {
+  margin: 0;
+  font-family: 'Segoe UI', sans-serif;
+  background-color: var(--bg-light);
+  color: var(--text-dark);
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
+}
+
+header {
+  background-color: var(--primary-color);
+  color: white;
+  padding: 1rem 2rem;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  box-shadow: var(--shadow);
+}
+
+nav ul {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  display: flex;
+  gap: 1.5rem;
+}
+
+nav a, #logout-form button {
+  text-decoration: none;
+  color: white;
+  font-weight: 500;
+  font-size: var(--font-sm);
+  transition: var(--transition);
+  background: none;
+  border: none;
+  cursor: pointer;
+  font-family: inherit;
+}
+
+nav a:hover, #logout-form button:hover {
+  color: var(--secondary-color);
+}
+
+main {
+  max-width: 1200px;
+  margin: 2rem auto;
+  padding: 1rem;
+  width: 95%;
+}
+
+h1, h2 {
+  font-size: var(--font-lg);
+  margin-bottom: 1rem;
+}
+
+h3 {
+  font-size: var(--font-md);
+  margin-top: 2rem;
+  margin-bottom: 1rem;
+}
+
+ul {
+  padding-left: 2rem;
+}
+
+a {
+  color: var(--primary-color);
+}
+a:hover {
+  color: var(--secondary-color);
+}
+
+.card {
+  background: white;
+  padding: 2rem;
+  margin-bottom: 2rem;
+  border-radius: var(--radius);
+  box-shadow: var(--shadow);
+}
+
+form {
+  max-width: 600px;
+  margin-top: 1rem;
+}
+
+input, select, textarea, button {
+  width: 100%;
+  padding: 0.8rem;
+  margin-bottom: 1rem;
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  font-size: var(--font-sm);
+  font-family: inherit;
+}
+
+button {
+  background-color: var(--primary-color);
+  color: white;
+  font-weight: bold;
+  transition: var(--transition);
+  cursor: pointer;
+}
+
+button:hover {
+  background-color: #1d4ed8;
+}
+
+.flash-success {
+  padding: 1rem;
+  background-color: #dcfce7;
+  color: #166534;
+  border-left: 5px solid #22c55e;
+  margin-bottom: 1rem;
+  border-radius: var(--radius);
+}
+
+.flash-error {
+  padding: 1rem;
+  background-color: #fee2e2;
+  color: #991b1b;
+  border-left: 5px solid #ef4444;
+  margin-bottom: 1rem;
+  border-radius: var(--radius);
+}
+
+footer {
+  margin-top: auto;
+  text-align: center;
+  padding: 1rem;
+  background-color: var(--primary-color);
+  color: white;
+}
