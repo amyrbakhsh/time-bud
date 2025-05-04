@@ -34,12 +34,12 @@ def signup(request):
 #Dashboard View
 @login_required
 def dashboard(request):
-    user_watches = Watch.objects.filter(owner=request.user)
-    user_bids = Bid.objects.filter(bidder=request.user)
+    watches = Watch.objects.filter(owner=request.user)
+    bids = Bid.objects.filter(bidder=request.user)
     transactions = Transaction.objects.filter(buyer=request.user) | Transaction.objects.filter(seller=request.user)
     return render(request, 'dashboard.html', {
-        'user_watches': user_watches,
-        'user_bids': user_bids,
+        'watches': watches,
+        'bids': bids,
         'transactions': transactions,
     })
 
