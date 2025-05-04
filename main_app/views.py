@@ -7,6 +7,7 @@ from django.contrib.auth.forms import UserCreationForm
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.http import HttpResponse
+from django.contrib.auth.models import User
 
 
 from .models import Watch, Bid, Transaction, Tag
@@ -64,7 +65,7 @@ def profile(request, user_id):
 def profile_view(request, username):
     profile_user = User.objects.get(username=username)
     watches = Watch.objects.filter(owner=profile_user)
-    bids = Bid.objects.filter(user=profile_user)
+    bids = Bid.objects.filter(bidder=profile_user)
     return render(request, 'profile.html', {
         'profile_user': profile_user,
         'watches': watches,
