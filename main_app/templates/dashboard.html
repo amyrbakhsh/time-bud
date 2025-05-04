@@ -41,6 +41,23 @@
         <p>You haven't placed any bids yet</p>
     {% endif %}
 </section>
+<section>
+    <h3>Bids on My Watches</h3>
+    {% if bids_on_user_watches %}
+        <ul>
+            {% for bid in bids_on_user_watches %}
+                <li>
+                    <strong>${{ bid.amount }}</strong> from {{ bid.bidder.username }} on 
+                    <a href="{% url 'watch_detail' bid.watch.id %}">{{ bid.watch.title }}</a>
+                    —
+                    <a href="{% url 'accept_bid' bid.id %}">Accept</a>
+                </li>
+            {% endfor %}
+        </ul>
+    {% else %}
+        <p>No bids yet on your watches.</p>
+    {% endif %}
+</section>
 
 <section>
     <h3>My Transactions</h3>

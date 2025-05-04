@@ -37,11 +37,13 @@ def signup(request):
 @login_required
 def dashboard(request):
     watches = Watch.objects.filter(owner=request.user)
-    bids = Bid.objects.filter(bidder=request.user)
+    user_bids = Bid.objects.filter(bidder=request.user)
+    bids_on_user_watches = Bid.objects.filter(watch__owner=request.user).order_by('-created_at')
     transactions = Transaction.objects.filter(buyer=request.user) | Transaction.objects.filter(seller=request.user)
     return render(request, 'dashboard.html', {
         'watches': watches,
-        'bids': bids,
+        'bids': user_bids,
+        'bids_on_user_watches': bids_on_user_watches,
         'transactions': transactions,
     })
 
@@ -73,13 +75,6 @@ def profile_view(request, username):
     })
 
 
-# def tag_list(request, tag_id):
-#     tag = Tag.objects.get(id=tag_id)
-#     watches = tag.watch_set.all()
-#     return render(request, 'tag_list.html', {
-#         'tag': tag,
-#         'watches': watches
-#     })
 
 def tag_list(request, tag_id):
     tag = Tag.objects.get(id=tag_id)
