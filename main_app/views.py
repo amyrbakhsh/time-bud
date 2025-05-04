@@ -11,6 +11,7 @@ from django.http import HttpResponse
 
 from .models import Watch, Bid, Transaction, Tag
 from .forms import WatchForm, BidForm
+from django.http import HttpResponseForbidden
 
 # Define the home view function
 def home(request):
@@ -79,6 +80,7 @@ def tag_list(request, tag_id):
         'watches': watches
     })
 
+
 #Detail and Bidding View
 @login_required
 def watch_detail(request, pk):
@@ -97,6 +99,15 @@ def watch_detail(request, pk):
         'watch': watch,
         'bids': bids,
         'bid_form': bid_form
+    })
+#transaction views
+@login_required
+def my_transactions(request):
+    sold = Transaction.objects.filter(seller=request.user)
+    bought = Transaction.objects.filter(buyer=request.user)
+    return render(request, 'transactions.html', {
+        'sold': sold,
+        'bought': bought
     })
 
 #Create watch
@@ -131,3 +142,27 @@ class WatchDelete(LoginRequiredMixin, DeleteView):
     model = Watch
     success_url = '/dashboard'
     template_name = 'watch/watch_confirm_delete.html'
+
+    # Accept Bid View
+@login_required
+def accept_bid(request, bid_id):
+    bid = Bid.objects.get(id=bid_id)
+    watch = bid.watch
+
+    if request.user != watch.owner:
+        return HttpResponseForbidden("You are not allowed to accept this bid.")
+
+    # Create a transaction record
+    Transaction.objects.create(
+        watch=watch,
+        buyer=bid.user,  
+        seller=watch.owner,
+        price=bid.amount
+    )
+
+    # Optional: mark as sold
+    watch.is_sold = True
+    watch.is_available = False
+    watch.save()
+
+    return redirect('watch_detail', pk=watch.id)

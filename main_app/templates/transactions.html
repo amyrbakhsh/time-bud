@@ -1,0 +1,36 @@
+{% extends 'base.html' %}
+{% block content %}
+<h2>My Transactions</h2>
+
+<div style="display: flex; gap: 40px; flex-wrap: wrap;">
+  <div>
+    <h3>Watches Bought</h3>
+    {% if bought %}
+      <ul>
+        {% for tx in bought %}
+          <li>
+            Bought <strong>{{ tx.watch.title }}</strong> for ${{ tx.price }} from {{ tx.seller.username }}
+          </li>
+        {% endfor %}
+      </ul>
+    {% else %}
+      <p>No purchases yet.</p>
+    {% endif %}
+  </div>
+
+  <div>
+    <h3>Watches Sold</h3>
+    {% if sold %}
+      <ul>
+        {% for tx in sold %}
+          <li>
+            Sold <strong>{{ tx.watch.title }}</strong> for ${{ tx.price }} to {{ tx.buyer.username }}
+          </li>
+        {% endfor %}
+      </ul>
+    {% else %}
+      <p>No sales yet.</p>
+    {% endif %}
+  </div>
+</div>
+{% endblock %}
