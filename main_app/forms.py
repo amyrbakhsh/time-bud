@@ -8,6 +8,7 @@ class WatchForm(forms.ModelForm):
         fields = ['title', 'brand', 'description', 'condition', 'image', 'tags']
         widgets = {
             'tags': forms.CheckboxSelectMultiple
+            
         }
 
 #Bid Form

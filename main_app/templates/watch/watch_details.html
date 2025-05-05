@@ -16,6 +16,9 @@
   </a>
 </p>
 
+<p><strong>Auction Ends:</strong> {{ watch.auction_end_time|date:"M d, Y H:i" }}</p>
+<p><strong>Time Left:</strong> <span id="countdown"></span></p>
+
 <p><strong>Tags:</strong>
   {% for tag in watch.tags.all %}
     <a href="{% url 'tag_list' tag.id %}">{{ tag.name }}</a>{% if not forloop.last %}, {% endif %}
@@ -35,10 +38,10 @@
 
 {% if user.is_authenticated and watch.owner != user %}
 <h3>Place a Bid</h3>
-  <form method="POST">
+  <form method="POST" id="bid-form">
     {% csrf_token %}
     {{ bid_form.as_p }}
-    <button type="submit">Submit Bid</button>
+    <button type="submit" id="bid-button">Submit Bid</button>
   </form>
 {% elif not user.is_authenticated %}
   <p><a href="{% url 'login' %}">Log in</a> to place a bid.</p>
@@ -67,5 +70,39 @@
 {% else %}
   <p>No bids yet.</p>
 {% endif %}
+{% endblock %}
+
+{% block scripts %}
+<script>
+  const countdownElement = document.getElementById('countdown');
+  const bidForm = document.getElementById('bid-form');
+  const bidButton = document.getElementById('bid-button');
+  const endTime = new Date("{{ watch.auction_end_time|date:'Y-m-d H:i:s' }}").getTime();
+
+  function updateCountdown() {
+    const now = new Date().getTime();
+    const distance = endTime - now;
+
+    if (distance <= 0) {
+      countdownElement.innerHTML = "Auction Ended";
+      clearInterval(interval);
+      if (bidForm) {
+        bidForm.style.display = 'none';
+      }
+      return;
+    }
+
+    const days = Math.floor(distance / (1000 * 60 * 60 * 24));
+    const hours = Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+    const minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
+    const seconds = Math.floor((distance % (1000 * 60)) / 1000);
+
+    countdownElement.innerHTML =
+      `${days}d ${hours}h ${minutes}m ${seconds}s`;
+  }
+
+  const interval = setInterval(updateCountdown, 1000);
+  updateCountdown();
+</script>
 {% endblock %}
 
