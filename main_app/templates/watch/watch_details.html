@@ -49,8 +49,6 @@
 
 <hr>
 
-<hr>
-
 <h3>Bids</h3>
 {% if bids %}
   <ul>
@@ -60,7 +58,7 @@
         <a href="{% url 'profile' bid.bidder.username %}">{{ bid.bidder.username }}</a>
         on {{ bid.created_at|date:"M d, Y H:i" }}
 
-        {% if user == watch.owner %}
+        {% if forloop.first and user == watch.owner %}
           <form method="POST" action="{% url 'accept_bid' bid.id %}" style="display:inline;">
             {% csrf_token %}
             <button type="submit">Accept</button>
