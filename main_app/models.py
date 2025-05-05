@@ -1,7 +1,8 @@
 from django.db import models
 from django.contrib.auth.models import User
 from django.urls import reverse
-
+from django.utils import timezone
+from datetime import timedelta
 #watch condition-----------------------------------
 CONDITIONS = (
     ('N', 'New'),
@@ -16,8 +17,7 @@ class Tag(models.Model):
     def __str__(self):
         return self.name
     
-    # def get_absolute_url(self):
-    #     return reverse('tag_detail', kwargs={'pk': self.id})
+
     
 
 #Watch Model-------------------------------
@@ -25,6 +25,7 @@ class Watch(models.Model):
     title = models.CharField(max_length=100)
     brand = models.CharField(max_length=100)
     description = models.TextField()
+    auction_end_time = models.DateTimeField(default=timezone.now() + timedelta(days=7))
     condition = models.CharField(
         max_length=1,
         choices=CONDITIONS,
