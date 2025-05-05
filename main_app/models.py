@@ -19,20 +19,21 @@ class Tag(models.Model):
     
 
     
-
+def default_auction_end():
+    return timezone.now() + timedelta(days=7)
 #Watch Model-------------------------------
 class Watch(models.Model):
     title = models.CharField(max_length=100)
     brand = models.CharField(max_length=100)
     description = models.TextField()
-    auction_end_time = models.DateTimeField(default=timezone.now() + timedelta(days=7))
+    auction_end_time = models.DateTimeField(default=default_auction_end)
     condition = models.CharField(
         max_length=1,
         choices=CONDITIONS,
         default=CONDITIONS[0][0]
     )
     image = models.ImageField(upload_to='watch_images/')
-    is_available = models.BooleanField(default=True)
+    is_available = models.BooleanField(default=False)
     is_sold = models.BooleanField(default=False)
     owner = models.ForeignKey(User, on_delete=models.CASCADE, related_name='owned_watches')
     tags = models.ManyToManyField(Tag, blank=True, related_name='watches')
