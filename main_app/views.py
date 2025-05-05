@@ -170,3 +170,16 @@ def accept_bid(request, bid_id):
     watch.save()
 
     return redirect('watch_detail', pk=watch.id)
+
+# Start Auction View
+@login_required
+def start_auction(request, watch_id):
+    watch = Watch.objects.get(id=watch_id)
+
+    if request.user != watch.owner:
+        return HttpResponseForbidden("You are not allowed to auction this watch.")
+
+    watch.is_available = True
+    watch.save()
+
+    return redirect('dashboard')

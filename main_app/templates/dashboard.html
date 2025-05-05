@@ -12,6 +12,15 @@
                     <a href="{% url 'watch_detail' watch.id %}">
                         {{ watch.brand }} - {{ watch.title }}
                     </a>
+                    {% if not watch.is_available %}
+                    <form action="{% url 'start_auction' watch.id %}" method="POST" style="display:inline;">
+                        {% csrf_token %}
+                        <button type="submit" class="btn submit">List for Auction</button>
+                    </form>
+                {% else %}
+                    <span style="color: green; font-weight: bold;">Auction Live</span>
+                {% endif %}
+        
                     {% if watch.image %}
                         <div>
                             <img src="{{ watch.image.url }}" alt="Watch Image" width="200">

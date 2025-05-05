@@ -1,5 +1,5 @@
 from django.urls import path
-from . import views # Import views to connect routes to view functions
+from . import views 
 
 urlpatterns = [
     path('', views.home, name='home'),
@@ -21,6 +21,8 @@ urlpatterns = [
     path('watches/<int:pk>/update/', views.WatchUpdate.as_view(), name='watch_update'),
     
     path('watches/<int:pk>/delete/', views.WatchDelete.as_view(), name='watch_delete'),
+
+path('watches/<int:pk>/start-auction/', views.start_auction, name='start_auction'),
 
      path('bids/<int:bid_id>/accept/', views.accept_bid, name='accept_bid'),
 

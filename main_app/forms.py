@@ -5,7 +5,7 @@ from .models import Watch, Bid, Tag
 class WatchForm(forms.ModelForm):
     class Meta:
         model = Watch
-        fields = ['title', 'brand', 'description', 'condition', 'image', 'tags']
+        fields = ['title', 'brand', 'description', 'condition', 'image', 'tags', 'is_available']
         widgets = {
             'tags': forms.CheckboxSelectMultiple
             
