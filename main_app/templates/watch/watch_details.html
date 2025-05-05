@@ -49,13 +49,15 @@
 
 <hr>
 
+<hr>
+
 <h3>Bids</h3>
-{% if watch.bid_set.all %}
+{% if bids %}
   <ul>
-    {% for bid in watch.bid_set.all %}
+    {% for bid in bids %}
       <li>
         ${{ bid.amount }} by 
-        <a href="{% url 'profile' bid.user.username %}">{{ bid.user.username }}</a>
+        <a href="{% url 'profile' bid.bidder.username %}">{{ bid.bidder.username }}</a>
         on {{ bid.created_at|date:"M d, Y H:i" }}
 
         {% if user == watch.owner %}
