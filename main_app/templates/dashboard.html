@@ -12,14 +12,16 @@
                     <a href="{% url 'watch_detail' watch.id %}">
                         {{ watch.brand }} - {{ watch.title }}
                     </a>
-                    {% if not watch.is_available %}
-                    <form action="{% url 'start_auction' watch.id %}" method="POST" style="display:inline;">
-                        {% csrf_token %}
-                        <button type="submit" class="btn submit">List for Auction</button>
-                    </form>
-                {% else %}
-                    <span style="color: green; font-weight: bold;">Auction Live</span>
-                {% endif %}
+                    {% if watch.id in sold_watch_ids %}
+                        <span style="color: red; font-weight: bold;">SOLD</span>
+                    {% elif not watch.is_available %}
+                        <form action="{% url 'start_auction' watch.id %}" method="POST" style="display:inline;">
+                            {% csrf_token %}
+                            <button type="submit" class="btn submit">List for Auction</button>
+                        </form>
+                    {% else %}
+                        <span style="color: green; font-weight: bold;">Auction Live</span>
+                    {% endif %}
         
                     {% if watch.image %}
                         <div>
@@ -73,9 +75,14 @@
     {% if transactions %}
         <ul>
             {% for transaction in transactions %}
-                <li>
-                    You {{ transaction.status }} a {{ transaction.watch.brand }} - {{ transaction.watch.title }}.
-                </li>
+            <li>
+                {% if transaction.buyer == user %}
+                  You bought a {{ transaction.watch.brand }} - {{ transaction.watch.title }} from {{ transaction.seller.username }}.
+                {% elif transaction.seller == user %}
+                  You sold a {{ transaction.watch.brand }} - {{ transaction.watch.title }} to {{ transaction.buyer.username }}.
+                {% endif %}
+              </li>
+              
             {% endfor %}
         </ul>
     {% else %}
