@@ -8,7 +8,7 @@ from django.contrib.auth.decorators import login_required
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.http import HttpResponse
 from django.contrib.auth.models import User
-
+from django.contrib import messages
 
 from .models import Watch, Bid, Transaction, Tag
 from .forms import WatchForm, BidForm
@@ -40,11 +40,13 @@ def dashboard(request):
     user_bids = Bid.objects.filter(bidder=request.user)
     bids_on_user_watches = Bid.objects.filter(watch__owner=request.user).order_by('-created_at')
     transactions = Transaction.objects.filter(buyer=request.user) | Transaction.objects.filter(seller=request.user)
+    sold_watch_ids = Transaction.objects.filter(seller=request.user).values_list('watch_id', flat=True)
     return render(request, 'dashboard.html', {
         'watches': watches,
         'bids': user_bids,
         'bids_on_user_watches': bids_on_user_watches,
         'transactions': transactions,
+        'sold_watch_ids': sold_watch_ids,
     })
 
 
@@ -159,17 +161,21 @@ def accept_bid(request, bid_id):
     # Create a transaction record
     Transaction.objects.create(
         watch=watch,
-        buyer=bid.user,  
+        buyer=bid.bidder,  
         seller=watch.owner,
-        price=bid.amount
+        final_price=bid.amount
     )
 
     # Optional: mark as sold
+    watch.owner = bid.bidder
     watch.is_sold = True
     watch.is_available = False
     watch.save()
+    messages.success(request, f"Bid of ${bid.amount} accepted. Watch sold to {bid.bidder.username}.")
 
-    return redirect('watch_detail', pk=watch.id)
+    return redirect('dashboard')
+
+    # return redirect('watch_detail', pk=watch.id)
 
 # Start Auction View
 @login_required
