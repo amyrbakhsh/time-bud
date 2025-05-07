@@ -75,7 +75,7 @@
             {% for transaction in transactions %}
             <li>
                 {% if transaction.buyer == user %}
-                  Your buy transcation for {{ transaction.watch.brand }} | {{ transaction.watch.title }} with {{ transaction.seller.username }} was successful.
+                  Your buy transcation for {{ transaction.watch.brand }} | {{ transaction.watch.title }} with {{ transaction.seller.username }} was successful. 
                 {% elif transaction.seller == user %}
                   Your sell transcation for {{ transaction.watch.brand }} | {{ transaction.watch.title }} with {{ transaction.buyer.username }} was successful.
                 {% endif %}
