@@ -16,8 +16,10 @@
   </a>
 </p>
 
+{% if is_available %}
 <p><strong>Auction Ends:</strong> {{ watch.auction_end_time|date:"M d, Y H:i" }}</p>
 <p><strong>Time Left:</strong> <span id="countdown"></span></p>
+{% endif %}
 
 <p><strong>Tags:</strong>
   {% for tag in watch.tags.all %}
