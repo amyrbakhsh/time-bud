@@ -38,7 +38,7 @@ def signup(request):
 def dashboard(request):
     watches = Watch.objects.filter(owner=request.user)
     user_bids = Bid.objects.filter(bidder=request.user)
-    bids_on_user_watches = Bid.objects.filter(watch__owner=request.user).order_by('-created_at')
+    bids_on_user_watches = Bid.objects.filter(watch__owner=request.user, watch__is_sold=False).order_by('-created_at')
     transactions = Transaction.objects.filter(buyer=request.user) | Transaction.objects.filter(seller=request.user)
     sold_watch_ids = Transaction.objects.filter(seller=request.user).values_list('watch_id', flat=True)
     return render(request, 'dashboard.html', {
@@ -92,6 +92,14 @@ def tag_list(request, tag_id):
 def watch_detail(request, pk):
     watch = Watch.objects.get(id=pk)
     bid_form = BidForm()
+    if watch.is_sold:
+        bids = watch.bids.all().order_by('-amount')
+        return render (request, 'watch/watch_details.html', {
+            'watch': watch,
+            'bids': bids,
+            'bid_form': None,
+            'is_sold': True,
+        })
     if request.method == 'POST':
         bid_form = BidForm(request.POST)
         if bid_form.is_valid():
@@ -104,7 +112,8 @@ def watch_detail(request, pk):
     return render(request, 'watch/watch_details.html', {
         'watch': watch,
         'bids': bids,
-        'bid_form': bid_form
+        'bid_form': bid_form,
+        'is_available': True,
     })
 #transaction views
 @login_required
@@ -167,9 +176,10 @@ def accept_bid(request, bid_id):
     )
 
     # Optional: mark as sold
-    watch.owner = bid.bidder
+    # watch.owner = bid.bidder
     watch.is_sold = True
     watch.is_available = False
+    # watch.auction_end_time = None
     watch.save()
     messages.success(request, f"Bid of ${bid.amount} accepted. Watch sold to {bid.bidder.username}.")
 
