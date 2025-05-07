@@ -61,10 +61,6 @@
             <img src="{{ bid.watch.image.url }}" alt="{{ bid.watch.title }}">
             <h4>{{ bid.watch.title }}</h4>
             <p><strong>${{ bid.amount }}</strong> by {{ bid.bidder.username }}</p>
-            <!-- <form action="{% url 'accept_bid' bid.id %}" method="POST">
-              {% csrf_token %}
-              <button type="submit">Accept</button>
-            </form> -->
           </a>
         </li>
       {% endfor %}
