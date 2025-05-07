@@ -71,6 +71,22 @@
 </section>
 
 <section>
+    <h3>My Transactions</h3>
+  {% if transactions %}
+    <ul>
+      {% for transaction in transactions %}
+        <li>
+          {% if transaction.buyer == user %}
+            You bought a {{ transaction.watch.brand }} - {{ transaction.watch.title }} from {{ transaction.seller.username }}.
+          {% elif transaction.seller == user %}
+            You sold a {{ transaction.watch.brand }} - {{ transaction.watch.title }} to {{ transaction.buyer.username }}.
+          {% endif %}
+        </li>
+      {% endfor %}
+    </ul>
+  {% else %}
+    <p>No transactions yet</p>
+  {% endif %}
 
 </section>
 {% endblock %}
