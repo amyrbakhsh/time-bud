@@ -16,8 +16,10 @@
   </a>
 </p>
 
+{% if is_available %}
 <p><strong>Auction Ends:</strong> {{ watch.auction_end_time|date:"M d, Y H:i" }}</p>
 <p><strong>Time Left:</strong> <span id="countdown"></span></p>
+{% endif %}
 
 <p><strong>Tags:</strong>
   {% for tag in watch.tags.all %}
@@ -49,6 +51,10 @@
 
 <hr>
 
+{% if is_sold %}
+<p style="color: red; font-weight: bold;">This watch has been sold!. Auction Ended.</p>
+{% endif %}
+
 <h3>Bids</h3>
 {% if bids %}
   <ul>
@@ -57,8 +63,7 @@
         ${{ bid.amount }} by 
         <a href="{% url 'profile' bid.bidder.username %}">{{ bid.bidder.username }}</a>
         on {{ bid.created_at|date:"M d, Y H:i" }}
-
-        {% if forloop.first and user == watch.owner %}
+        {% if forloop.first and user == watch.owner and not is_sold %}
           <form method="POST" action="{% url 'accept_bid' bid.id %}" style="display:inline;">
             {% csrf_token %}
             <button type="submit">Accept</button>
