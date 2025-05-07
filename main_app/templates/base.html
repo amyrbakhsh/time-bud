@@ -12,33 +12,39 @@
 </head>
 <body>
     <header>
-        <h1><a href="{% url 'home' %}">Timebud</a></h1>
+        <div class="logo">
+          <h1><a href="{% url 'home' %}">Timebud</a></h1>
+        </div>
         <nav>
-            <ul>
-                {% if user.is_authenticated %}
-                    <li>Welcome! <strong>{{ user.username }}</strong></li>
-                    <li><a href="{% url 'dashboard' %}">Dashboard</a></li>
-                    <li><a href="{% url 'watch_create' %}">List a Watch</a></li>
-                    <li>
-                        <form action="{% url 'logout' %}" method="post" style="display:inline;">
-                            {% csrf_token %}
-                            <button type="submit">Logout</button>
-                        </form>
-                    </li>
-                {% else %}
-                    <a href="{% url 'login' %}">Login</a>
-                    <li><a href="{% url 'signup' %}">Sign Up</a></li>
-                {% endif %}
-            </ul>
-        </nav>
-    </header>
+          <ul>
+            {% if user.is_authenticated %}
+            <li><span class="nav-item">Welcome <strong>{{ user.username }}</strong></span></li>
 
+              <li><a href="{% url 'dashboard' %}">Dashboard</a></li>
+              <li><a href="{% url 'watch_create' %}">List a Watch</a></li>
+              <li>
+                <form action="{% url 'logout' %}" method="post" id="logout-form">
+                  {% csrf_token %}
+                  <button type="submit">Logout</button>
+                </form>
+              </li>
+            {% else %}
+              <li><a href="{% url 'login' %}">Login</a></li>
+              <li><a href="{% url 'signup' %}">Sign Up</a></li>
+            {% endif %}
+          </ul>
+        </nav>
+      </header>
+      
     <main>
         {% if messages %}
-            {% for message in messages %}
-                <div>{{ message }}</div>
-            {% endfor %}
-        {% endif %}
+        <div class="messages">
+          {% for message in messages %}
+            <div class="flash-{{ message.tags }}">{{ message }}</div>
+          {% endfor %}
+        </div>
+      {% endif %}
+      
 
         {% block content %}{% endblock %}
     </main>

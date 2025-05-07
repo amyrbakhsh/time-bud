@@ -4,87 +4,94 @@
 <h2>My Dashboard</h2>
 
 <section>
-    <h3>My Watches</h3>
-    {% if watches %}
-        <ul>
-            {% for watch in watches %}
-                <li>
-                    <a href="{% url 'watch_detail' watch.id %}">
-                        {{ watch.brand }} - {{ watch.title }}
-                    </a>
-                    {% if watch.id in sold_watch_ids %}
-                        <span style="color: red; font-weight: bold;">SOLD</span>
-                    {% elif not watch.is_available %}
-                        <form action="{% url 'start_auction' watch.id %}" method="POST" style="display:inline;">
-                            {% csrf_token %}
-                            <button type="submit" class="btn submit">List for Auction</button>
-                        </form>
-                    {% else %}
-                        <span style="color: green; font-weight: bold;">Auction Live</span>
-                    {% endif %}
-        
-                    {% if watch.image %}
-                        <div>
-                            <img src="{{ watch.image.url }}" alt="Watch Image" width="200">
-                        </div>
-                    {% endif %}
-                </li>
-            {% endfor %}
-        </ul>
-    {% else %}
-        <p>You haven't listed any watches yet</p>
-    {% endif %}
+  <h3>My Watches</h3>
+  {% if watches %}
+    <ul class="watch-list">
+      {% for watch in watches %}
+        <li class="watch-card">
+          <a href="{% url 'watch_detail' watch.id %}">
+            <img src="{{ watch.image.url }}" alt="{{ watch.title }}">
+            <h4>{{ watch.brand }} - {{ watch.title }}</h4>
+            <p>Condition: {{ watch.get_condition_display }}</p>
+          </a>
+          {% if watch.id in sold_watch_ids %}
+            <p style="color: red; font-weight: bold;">SOLD</p>
+          {% elif not watch.is_available %}
+            <form action="{% url 'start_auction' watch.id %}" method="POST">
+              {% csrf_token %}
+              <button type="submit">List for Auction</button>
+            </form>
+          {% else %}
+            <p style="color: green; font-weight: bold;">Auction Live</p>
+          {% endif %}
+        </li>
+      {% endfor %}
+    </ul>
+  {% else %}
+    <p>You haven't listed any watches yet</p>
+  {% endif %}
 </section>
 
 <section>
-    <h3>My Bids</h3>
-    {% if bids %}
-        <ul>
-            {% for bid in bids %}
-                <li>
-                    Bid on <a href="{% url 'watch_detail' bid.watch.id %}">
-                        {{ bid.watch.brand }} - {{ bid.watch.title }}
-                    </a> for ${{ bid.amount }}
-                </li>
-            {% endfor %}
-        </ul>
-    {% else %}
-        <p>You haven't placed any bids yet</p>
-    {% endif %}
-</section>
-<section>
-    <h3>Bids on My Watches</h3>
-    {% if bids_on_user_watches %}
-        <ul>
-            {% for bid in bids_on_user_watches %}
-                <li>
-                    <strong>${{ bid.amount }}</strong> from {{ bid.bidder.username }} on 
-                    <a href="{% url 'watch_detail' bid.watch.id %}">{{ bid.watch.title }}</a>
-                </li>
-            {% endfor %}
-        </ul>
-    {% else %}
-        <p>No bids yet on your watches.</p>
-    {% endif %}
+  <h3>My Bids</h3>
+  {% if bids %}
+    <ul class="watch-list">
+      {% for bid in bids %}
+        <li class="watch-card">
+          <a href="{% url 'watch_detail' bid.watch.id %}">
+            <img src="{{ bid.watch.image.url }}" alt="{{ bid.watch.title }}">
+            <h4>{{ bid.watch.brand }} - {{ bid.watch.title }}</h4>
+            <p>Bid: ${{ bid.amount }}</p>
+          </a>
+        </li>
+      {% endfor %}
+    </ul>
+  {% else %}
+    <p>You haven't placed any bids yet</p>
+  {% endif %}
 </section>
 
 <section>
-    <h3>My Transactions</h3>
-    {% if transactions %}
-        <ul>
-            {% for transaction in transactions %}
-            <li>
-                {% if transaction.buyer == user %}
-                  Your buy transcation for {{ transaction.watch.brand }} | {{ transaction.watch.title }} with {{ transaction.seller.username }} was successful.
-                {% elif transaction.seller == user %}
-                  Your sell transcation for {{ transaction.watch.brand }} | {{ transaction.watch.title }} with {{ transaction.buyer.username }} was successful.
-                {% endif %}
-              </li>
-              
-            {% endfor %}
-        </ul>
-    {% else %}
-        <p>No transactions yet</p>
-    {% endif %}
+  <h3>Bids on My Watches</h3>
+  {% if bids_on_user_watches %}
+    <ul class="watch-list">
+      {% for bid in bids_on_user_watches %}
+        <li class="watch-card">
+          <a href="{% url 'watch_detail' bid.watch.id %}">
+            <img src="{{ bid.watch.image.url }}" alt="{{ bid.watch.title }}">
+            <h4>{{ bid.watch.title }}</h4>
+            <p><strong>${{ bid.amount }}</strong> by {{ bid.bidder.username }}</p>
+            <!-- <form action="{% url 'accept_bid' bid.id %}" method="POST">
+              {% csrf_token %}
+              <button type="submit">Accept</button>
+            </form> -->
+          </a>
+        </li>
+      {% endfor %}
+    </ul>
+  {% else %}
+    <p>No bids yet on your watches.</p>
+  {% endif %}
+</section>
+
+<section>
+  <h3>My Transactions</h3>
+  {% if transactions %}
+    <ul>
+      {% for transaction in transactions %}
+        <li>
+          {% if transaction.buyer == user %}
+            You bought a {{ transaction.watch.brand }} - {{ transaction.watch.title }} from {{ transaction.seller.username }}.
+          {% elif transaction.seller == user %}
+            You sold a {{ transaction.watch.brand }} - {{ transaction.watch.title }} to {{ transaction.buyer.username }}.
+          {% endif %}
+        </li>
+      {% endfor %}
+    </ul>
+  {% else %}
+    <p>No transactions yet</p>
+  {% endif %}
 </section>
 {% endblock %}
+
+

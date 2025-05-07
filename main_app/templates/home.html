@@ -5,20 +5,18 @@
 <h2>Live Auction</h2>
 
 {% if watches %}
-    <ul>
-        {% for watch in watches %}
-            <li>
-                <a href="{% url 'watch_detail' watch.id %}">
-                    {{ watch.brand }} - {{ watch.title }}
-                </a>
-                {% if watch.image %}
-                    <div>
-                        <img src="{{ watch.image.url }}" alt="Watch Image" width="200">
-                    </div>
-                {% endif %}
-            </li>
-        {% endfor %}
-    </ul>
+<ul class="watch-list">
+    {% for watch in watches %}
+      <li class="watch-card">
+        <a href="{% url 'watch_detail' watch.id %}">
+          <img src="{{ watch.image.url }}" alt="{{ watch.title }}">
+          <h4>{{ watch.brand }} - {{ watch.title }}</h4>
+          <p>Condition: {{ watch.get_condition_display }}</p>
+        </a>
+      </li>
+    {% endfor %}
+  </ul>
+  
 {% else %}
     <p>No watches available right now. Check back later!</p>
 {% endif %}
