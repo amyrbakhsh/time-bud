@@ -16,6 +16,7 @@
         <nav>
             <ul>
                 {% if user.is_authenticated %}
+                    <li>Welcome! <strong>{{ user.username }}</strong></li>
                     <li><a href="{% url 'dashboard' %}">Dashboard</a></li>
                     <li><a href="{% url 'watch_create' %}">List a Watch</a></li>
                     <li>
