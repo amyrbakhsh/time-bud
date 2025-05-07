@@ -22,7 +22,7 @@ urlpatterns = [
     
     path('watches/<int:pk>/delete/', views.WatchDelete.as_view(), name='watch_delete'),
 
-path('watches/<int:watch_id>/start-auction/', views.start_auction, name='start_auction'),
+    path('watches/<int:watch_id>/start-auction/', views.start_auction, name='start_auction'),
 
 
      path('bids/<int:bid_id>/accept/', views.accept_bid, name='accept_bid'),

@@ -7,8 +7,8 @@ html {
 
 :root {
   font-size: 62.5%;
-  --primary-color: #1e3a8a;
-  --secondary-color: #facc15;
+  --primary-color: #047857; 
+  --secondary-color: #d1fae5; 
   --bg-light: #f9fafb;
   --text-dark: #111827;
   --text-muted: #6b7280;
@@ -40,6 +40,24 @@ header {
   justify-content: space-between;
   box-shadow: var(--shadow);
 }
+.logo h1 {
+  margin: 0;
+  font-size: var(--font-lg);
+}
+
+.logo h1 a {
+  color: white;
+  text-decoration: none;
+}
+header h1 {
+  font-size: var(--font-lg);
+  margin: 0;
+}
+
+header h1 a {
+  color: white;
+  text-decoration: none;
+}
 
 nav ul {
   list-style: none;
@@ -47,6 +65,7 @@ nav ul {
   margin: 0;
   display: flex;
   gap: 1.5rem;
+  align-items: center;
 }
 
 nav a, #logout-form button {
@@ -93,6 +112,11 @@ a {
 a:hover {
   color: var(--secondary-color);
 }
+.nav-item {
+  font-size: var(--font-sm);
+  font-weight: 500;
+  color: white;
+}
 
 .card {
   background: white;
@@ -123,17 +147,20 @@ button {
   font-weight: bold;
   transition: var(--transition);
   cursor: pointer;
+  border: none;
+  padding: 0.8rem 1.2rem;
+  border-radius: var(--radius);
 }
 
 button:hover {
-  background-color: #1d4ed8;
+  background-color: #065f46; 
 }
 
 .flash-success {
   padding: 1rem;
   background-color: #dcfce7;
-  color: #166534;
-  border-left: 5px solid #22c55e;
+  color: #065f46;
+  border-left: 5px solid #10b981;
   margin-bottom: 1rem;
   border-radius: var(--radius);
 }
@@ -153,4 +180,108 @@ footer {
   padding: 1rem;
   background-color: var(--primary-color);
   color: white;
+}
+
+
+ul li img {
+  border-radius: var(--radius);
+  box-shadow: var(--shadow);
+}
+
+section ul {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 2rem;
+  padding-left: 0;
+  list-style: none;
+}
+
+section ul li {
+  width: 250px;
+}
+header h1 {
+  flex: 1;
+  text-align: center;
+  font-weight: bold;
+}
+
+header nav {
+  flex: 1;
+  display: flex;
+  justify-content: flex-end;
+}
+
+
+.messages {
+  max-width: 800px;
+  margin: 1rem auto;
+  padding: 1rem;
+  border-radius: var(--radius);
+  box-shadow: var(--shadow);
+}
+
+section {
+  margin-bottom: 3rem;
+}
+
+
+ul li img {
+  max-height: 250px;
+  object-fit: cover;
+}
+
+
+#logout-form {
+  display: inline;
+}
+
+#logout-form button {
+  padding: 0.4rem 1rem;
+  background-color: transparent;
+  color: white;
+  font-weight: 500;
+  border: 1px solid white;
+  border-radius: var(--radius);
+}
+
+#logout-form button:hover {
+  background-color: var(--secondary-color);
+  color: var(--primary-color);
+  border-color: var(--secondary-color);
+}
+.watch-card {
+  background: white;
+  border-radius: var(--radius);
+  box-shadow: var(--shadow);
+  padding: 1rem;
+  width: 250px;
+  transition: transform 0.3s ease;
+}
+
+.watch-card:hover {
+  transform: translateY(-5px);
+}
+
+.watch-card img {
+  max-width: 100%;
+  height: auto;
+  border-radius: var(--radius);
+  margin-bottom: 1rem;
+}
+
+.watch-card h4 {
+  font-size: var(--font-md);
+  margin: 0 0 0.5rem;
+}
+
+.watch-card p {
+  font-size: var(--font-sm);
+  margin: 0.5rem 0;
+}
+.watch-list {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 2rem;
+  padding-left: 0;
+  list-style: none;
 }
