@@ -1,1 +1,1 @@
-web: gunicorn timebud.wsgi.application.wsgi
+web: gunicorn timebud.wsgi
